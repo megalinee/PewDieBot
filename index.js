@@ -1,7 +1,7 @@
 // Node modules
 const fs = require("fs")
  
-let warns = JSON.parse(fs.readFileSync("/Users/mjouhari/Desktop/IPD/users.json", "utf8"));
+let warns = JSON.parse(fs.readFileSync("./users.json", "utf8"));
  
 const ms = require("ms")
  
@@ -20,8 +20,8 @@ var TSubs;
 var difference;
 var offWords = ['faggot', 'nigger', 'f@ggot', 'n!gger', 'motherfucker', 'retard', 'nigga']
  
-var url0 = "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" + DONOT.YTKey
-var url1 = "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UCq-Fj5jknLsUf-MWSy4_brA&key=" + DONOT.YTKey
+var url0 = "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UC-lHJZR3Gqxm24_Vd_AJ5Yw&key=" + process.env.YTKey
+var url1 = "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=UCq-Fj5jknLsUf-MWSy4_brA&key=" + process.env.YTKey
  
  
 const bot = new Discord.Client();
@@ -134,4 +134,4 @@ today = mm + '/' + dd + '/' + yyyy;
  
 });
  
-bot.login(DONOT.discordBotToken)
+bot.login(process.env.discordBotToken)

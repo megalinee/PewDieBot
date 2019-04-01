@@ -1,8 +1,7 @@
 // Node modules
 const fs = require("fs")
  
-// If there's a error regarding this, make the ./users.json a direct file directory to the users json file
-let warns = JSON.parse(fs.readFileSync("./users.json", "utf8"));
+let warns = JSON.parse(fs.readFileSync("/Users/mjouhari/Desktop/IPD/users.json", "utf8"));
  
 const ms = require("ms")
  
@@ -74,21 +73,12 @@ today = mm + '/' + dd + '/' + yyyy;
   .setColor('#f44e42')
   // .setDescription("")
   .setFooter('', bot.user.avatarURL)
-  /*
-   * Takes a Date object, defaults to current date.
-   */
   .setTimestamp()
   .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
   .addField("PewDiePie\'s subcount",
     numberWithCommas(jso.items[0].statistics.subscriberCount))
-  /*
-   * Inline fields may not display as inline if the thumbnail and/or image is too big.
-   */
   .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
   .addField('Difference between', numberWithCommas(difference))
-  /*
-   * Blank field, useful to create some space.
-   */
   msg.channel.send({embed});
 });
 });

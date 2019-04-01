@@ -1,0 +1,19 @@
+{
+  "name": "pewdiebot",
+  "version": "1.0.0",
+  "description": "pewdiepie bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Quif/PewDieBot.git"
+  },
+  "author": "Megaline",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Quif/PewDieBot/issues"
+  },
+  "homepage": "https://github.com/Quif/PewDieBot#readme"
+}

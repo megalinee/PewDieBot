@@ -1,7 +1,15 @@
 // Node modules
+
 const fs = require("fs")
  
-let warns = JSON.parse(fs.readFileSync("/Users/mjouhari/Desktop/IPD/users.json", "utf8"));
+fs.readFile(__dirname + '/users.json', 'utf-8', function(err, data){
+    if (err) throw err;
+    if(data === ""){
+        fs.writeFileSync(__dirname + '/users.json', "{}")
+    }
+});
+
+let warns = JSON.parse(fs.readFileSync(__dirname + '/users.json', "utf8"));
  
 const ms = require("ms")
  
@@ -67,6 +75,7 @@ today = mm + '/' + dd + '/' + yyyy;
           var json = JSON.parse(text); 
       difference = jso.items[0].statistics.subscriberCount - json.items[0].statistics.subscriberCount
       // msg.channel.send(`\`\`\`java\n PewDiePie: ` + PewSubs + `\n T-Series: ` + TSubs + `\n Difference: ` + difference + `\n\`\`\``)
+  if(jso.items[0].statistics.subscriberCount > json.items[0].statistics.subscriberCount){
         const embed = new Discord.RichEmbed()
   .setTitle("Subscribe to PewDiePie")
   .setAuthor("PewDieBot", 'https://img.timesnownews.com/story/1540488984-fvgef.jpg')
@@ -78,8 +87,23 @@ today = mm + '/' + dd + '/' + yyyy;
   .addField("PewDiePie\'s subcount",
     numberWithCommas(jso.items[0].statistics.subscriberCount))
   .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
-  .addField('Difference between', numberWithCommas(difference))
-  msg.channel.send({embed});
+  .addField('Difference between', numberWithCommas(difference) + " with PewDiePie in the lead")
+      msg.channel.send({embed});
+  } else {
+        const embed = new Discord.RichEmbed()
+  .setTitle("Subscribe to PewDiePie")
+  .setAuthor("PewDieBot", 'https://img.timesnownews.com/story/1540488984-fvgef.jpg')
+  .setColor('#f44e42')
+  // .setDescription("")
+  .setFooter('', bot.user.avatarURL)
+  .setTimestamp()
+  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .addField("PewDiePie\'s subcount",
+    numberWithCommas(jso.items[0].statistics.subscriberCount))
+  .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
+  .addField('Difference between', numberWithCommas(difference) + " with T-Series in the lead")
+      msg.channel.send({embed})
+  }
 });
 });
     }
@@ -103,7 +127,7 @@ today = mm + '/' + dd + '/' + yyyy;
           msg.member.ban('Offensive language')
         }
  
-        fs.writeFile("/Users/mjouhari/Desktop/IPD/users.json", JSON.stringify(warns), (err) => {
+        fs.writeFile(__dirname + '/users.json', JSON.stringify(warns), (err) => {
           if (err) console.log(err)
         });
  
@@ -117,8 +141,7 @@ today = mm + '/' + dd + '/' + yyyy;
         .addField("Reason", "Offensive language")
  
         msg.author.send(warnEmbed)
-        // let warnchannel = message.guild.channels.find('name', 'channelname')
-        // warnchannel.send(warnEmbed)
+        //warnchannel.send(warnEmbed)
         msg.delete()
       }
   }

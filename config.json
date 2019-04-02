@@ -1,5 +1,7 @@
 {
-        "discordBotToken":"",
-        "prefix":"!",
-        "YTKey":""
+    "discordBotToken": "",
+    "prefix": "!",
+    "YTKey": "",
+
+    "offensiveWords": ["faggot", "nigger", "f@ggot", "n!gger", "motherfucker", "retard", "nigga"]
 }

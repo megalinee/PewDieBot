@@ -51,6 +51,7 @@ today = mm + '/' + dd + '/' + yyyy;
  
     var want = msg.content.split(" ")[1];
  
+// If statement || not working, had to duplicate the entire command with a new input, waste of space.
     if (input.startsWith(DONOT.prefix + "subcount")) {
       request({
           method: 'GET',
@@ -107,6 +108,62 @@ today = mm + '/' + dd + '/' + yyyy;
 });
 });
     }
+ if (input.startsWith(DONOT.prefix + "subgap")) {
+     request({
+          method: 'GET',
+          url: url0
+      }, function (er, respons, tex) {
+          if (er) {
+ 
+              return;
+          }
+ 
+          var jso = JSON.parse(tex);
+ 
+      request({
+          method: 'GET',
+          url: url1
+      }, function (err, response, text) {
+          if (err) {
+ 
+              return;
+          }
+ 
+          var json = JSON.parse(text); 
+      difference = jso.items[0].statistics.subscriberCount - json.items[0].statistics.subscriberCount
+      // msg.channel.send(`\`\`\`java\n PewDiePie: ` + PewSubs + `\n T-Series: ` + TSubs + `\n Difference: ` + difference + `\n\`\`\``)
+  if(jso.items[0].statistics.subscriberCount > json.items[0].statistics.subscriberCount){
+        const embed = new Discord.RichEmbed()
+  .setTitle("Subscribe to PewDiePie")
+  .setAuthor(bot.user.username, bot.user.avatarURL)
+  .setColor('#f44e42')
+  // .setDescription("")
+  .setFooter('', bot.user.avatarURL)
+  .setTimestamp()
+  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .addField("PewDiePie\'s subcount",
+    numberWithCommas(jso.items[0].statistics.subscriberCount))
+  .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
+  .addField('Difference between', numberWithCommas(difference) + " with PewDiePie in the lead")
+      msg.channel.send({embed});
+  } else {
+        const embed = new Discord.RichEmbed()
+  .setTitle("Subscribe to PewDiePie")
+  .setAuthor(bot.user.username, bot.user.avatarURL)
+  .setColor('#f44e42')
+  // .setDescription("")
+  .setFooter('', bot.user.avatarURL)
+  .setTimestamp()
+  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .addField("PewDiePie\'s subcount",
+    numberWithCommas(jso.items[0].statistics.subscriberCount))
+  .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
+  .addField('Difference between', numberWithCommas(difference) + " with T-Series in the lead")
+      msg.channel.send({embed})
+  }
+});
+});
+ }
     if (input.startsWith(DONOT.prefix + "keyword ")) {
  
     }

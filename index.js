@@ -1,6 +1,8 @@
 // Node modules
 
 const fs = require("fs")
+
+var TinyURL = require('tinyurl');
  
 fs.readFile(__dirname + '/users.json', 'utf-8', function(err, data){
     if (err) throw err;
@@ -36,7 +38,9 @@ const bot = new Discord.Client();
  
 var DONOT = require('./config.json')
  
- 
+ bot.on('ready', () => {
+     bot.user.setPresence({ status: 'online', game: { name: 'github.com/Quif/PewDieBot' } });
+});
  
 bot.on("message", function(msg) {
     
@@ -77,28 +81,33 @@ today = mm + '/' + dd + '/' + yyyy;
       difference = jso.items[0].statistics.subscriberCount - json.items[0].statistics.subscriberCount
       // msg.channel.send(`\`\`\`java\n PewDiePie: ` + PewSubs + `\n T-Series: ` + TSubs + `\n Difference: ` + difference + `\n\`\`\``)
   if(jso.items[0].statistics.subscriberCount > json.items[0].statistics.subscriberCount){
+      var tweetlink = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20winning%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20Keep%20it%20up,%20we%20got%20this!%20%23creatorsnotcorporations%20%23subtopewdiepie%20%23pewdiebot"
+      TinyURL.shorten(tweetlink, function(res) {
+    tweetlink = res 
+});
         const embed = new Discord.RichEmbed()
-  .setTitle("Subscribe to PewDiePie")
-  .setAuthor("PewDieBot", 'https://img.timesnownews.com/story/1540488984-fvgef.jpg')
+  .setTitle("Tweet about it")
+  .setAuthor(bot.user.username, bot.user.avatarURL)
   .setColor('#f44e42')
   // .setDescription("")
   .setFooter('', bot.user.avatarURL)
   .setTimestamp()
-  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .setURL(tweetlink)
   .addField("PewDiePie\'s subcount",
     numberWithCommas(jso.items[0].statistics.subscriberCount))
   .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
   .addField('Difference between', numberWithCommas(difference) + " with PewDiePie in the lead")
       msg.channel.send({embed});
   } else {
+      var tweetlink = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20loosing%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20We%20still%20have%20a%20chance,%20do%20whatever%20you%20can%20to%20get%20PewDiePie%20more%20subs.%20%23creatorsnotcorporations%20%23subtopewdiepie%20%23pewdiebot"
         const embed = new Discord.RichEmbed()
-  .setTitle("Subscribe to PewDiePie")
-  .setAuthor("PewDieBot", 'https://img.timesnownews.com/story/1540488984-fvgef.jpg')
+  .setTitle("Tweet about it")
+  .setAuthor(bot.user.username, bot.user.avatarURL)
   .setColor('#f44e42')
   // .setDescription("")
   .setFooter('', bot.user.avatarURL)
   .setTimestamp()
-  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .setURL(tweetlink)
   .addField("PewDiePie\'s subcount",
     numberWithCommas(jso.items[0].statistics.subscriberCount))
   .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
@@ -133,28 +142,36 @@ today = mm + '/' + dd + '/' + yyyy;
       difference = jso.items[0].statistics.subscriberCount - json.items[0].statistics.subscriberCount
       // msg.channel.send(`\`\`\`java\n PewDiePie: ` + PewSubs + `\n T-Series: ` + TSubs + `\n Difference: ` + difference + `\n\`\`\``)
   if(jso.items[0].statistics.subscriberCount > json.items[0].statistics.subscriberCount){
+      var tweetlink = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20winning%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20Keep%20it%20up,%20we%20got%20this!%20%23creatorsnotcorporations%20%23subtopewdiepie%20%23pewdiebot"
+            TinyURL.shorten(tweetlink, function(res) {
+    tweetlink = res 
+});
         const embed = new Discord.RichEmbed()
-  .setTitle("Subscribe to PewDiePie")
+  .setTitle("Tweet about it")
   .setAuthor(bot.user.username, bot.user.avatarURL)
   .setColor('#f44e42')
   // .setDescription("")
   .setFooter('', bot.user.avatarURL)
   .setTimestamp()
-  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .setURL(tweetlink)
   .addField("PewDiePie\'s subcount",
     numberWithCommas(jso.items[0].statistics.subscriberCount))
   .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))
   .addField('Difference between', numberWithCommas(difference) + " with PewDiePie in the lead")
       msg.channel.send({embed});
   } else {
+      var tweetlink = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20loosing%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20We%20still%20have%20a%20chance,%20do%20whatever%20you%20can%20to%20get%20PewDiePie%20more%20subs.%20%23creatorsnotcorporations%20%23subtopewdiepie%20%23pewdiebot"
+            TinyURL.shorten(tweetlink, function(res) {
+    tweetlink = res 
+});
         const embed = new Discord.RichEmbed()
-  .setTitle("Subscribe to PewDiePie")
+  .setTitle("Tweet about it")
   .setAuthor(bot.user.username, bot.user.avatarURL)
   .setColor('#f44e42')
   // .setDescription("")
   .setFooter('', bot.user.avatarURL)
   .setTimestamp()
-  .setURL("https://www.youtube.com/channel/UC-lHJZR3Gqxm24_Vd_AJ5Yw?sub_confirmation=1")
+  .setURL(tweetlink)
   .addField("PewDiePie\'s subcount",
     numberWithCommas(jso.items[0].statistics.subscriberCount))
   .addField("T-Series\'s subcount", numberWithCommas(json.items[0].statistics.subscriberCount))

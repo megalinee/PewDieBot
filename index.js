@@ -8,29 +8,9 @@ const TinyURL = require("tinyurl")
 const Discord = require("discord.js")
 const bot = new Discord.Client()
 
-// Load warnings, create a new file if it doesn't exist
-fs.readFile(__dirname + "/users.json", "utf-8", function (err, data) {
-    if (err) throw err
-    if (data === "") {
-        fs.writeFileSync(__dirname + "/users.json", "{}")
-    }
-});
-var warns = JSON.parse(fs.readFileSync(__dirname + "/users.json", "utf8"))
-
 // Used to format a string
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
-
-// Checks if message contains banned words
-function checkForBannedWords(input) {
-    var i
-    for (i = 0; i < config.offensiveWords.length; i++) {
-        if (input.includes(config.offensiveWords[i])) {
-            return true
-        }
-    }
-    return false
 }
 
 // Youtube API endpoints
@@ -49,7 +29,7 @@ bot.on("message", function (msg) {
     var input = msg.content.toLowerCase()
 
     // Accepted strings for subcounts
-    if (input.startsWith(config.prefix + "subcount") || input.startsWith(config.prefix + "subgap")) {
+    if (input.startsWith(config.prefix + "subcount") || input.startsWith(config.prefix + "subgap") || input.startsWith(config.prefix + "sg") || input.startsWith(config.prefix + "sc")) {
 
         // Make both requests
         request({
@@ -80,8 +60,8 @@ bot.on("message", function (msg) {
                 } else {
                     lead = "T-Series"
                 }
-                    var PewWin = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20winning%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20Keep%20it%20up,%20we%20got%20this!%20%23creatorsnotcorporations%20%23subtopewdiepie%20%23pewdiebot"
-                    var Twin = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20losing%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20We%20still%20have%20a%20chance,%20do%20whatever%20you%20can%20to%20get%20PewDiePie%20more%20subs.%20%23creatorsnotcorporations%20%23subtopewdiepie%20%23pewdiebot"
+                    var PewWin = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20winning%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20Keep%20it%20up,%20we%20got%20this!%20%23creatorsnotcorporations%20%23thankyoupewdiepie%20%23pewdiebot"
+                    var Twin = "https://twitter.com/intent/tweet?text=PewDiePie%20is%20losing%20the%20war%20against%20T-Series%20with%20a%20difference%20of%20" + numberWithCommas(difference) + "!%20PewDiePie%20is%20currently%20at%20" + numberWithCommas(jso.items[0].statistics.subscriberCount) + "%20while%20T-Series%20is%20at%20" + numberWithCommas(json.items[0].statistics.subscriberCount) + "!%20We%20still%20have%20a%20chance,%20do%20whatever%20you%20can%20to%20get%20PewDiePie%20more%20subs.%20%23creatorsnotcorporations%20%23thankyoupewdiepie%20%23pewdiebot"
                     function leadTweet(){
                     if(jso.items[0].statistics.subscriberCount > json.items[0].statistics.subscriberCount){
                         return PewWin 
@@ -105,58 +85,6 @@ bot.on("message", function (msg) {
                 })
             })
         }
-
-    // If the user used a banned word, take action
-    if (checkForBannedWords(input)) {
-        if (!warns[msg.author.id]) {
-            warns[msg.author.id] = {
-                warns: 0
-            }
-        }
-        warns[msg.author.id].warns++;
-
-        fs.writeFile(__dirname + "/users.json", JSON.stringify(warns), (err) => {
-            if (err) console.log(err)
-        })
-
-        var warnEmbed = new Discord.RichEmbed()
-            .setDescription("Warns")
-            .setAuthor(msg.author.username)
-            .setColor("#f45042")
-            .addField("Warned User", msg.author.tag)
-            .addField("Warned in", msg.channel)
-            .addField("Number of warnings", warns[msg.author.id].warns)
-            .addField("Reason", "Offensive language")
-
-
-        // warnchannel.send(warnEmbed)
-        /*
-        I added catch() to all lines that could cause problems when the discord server
-        runs into a permission issue (e.g. privileged user uses a banned word)
-        */
-
-        msg.author.send(warnEmbed).catch(function (error) {
-            console.log(error);
-        })
-
-        msg.delete().catch(function (error) {
-            console.log(error);
-        })
-
-
-        if (warns[msg.author.id].warns == 2) {
-            msg.author.send("You've been kicked.")
-            msg.member.kick().catch(function (error) {
-                console.log(error)
-            })
-        }
-        if (warns[msg.author.id].warns == 3) {
-            msg.author.send("You've been banned.")
-            msg.member.ban("Offensive language").catch(function (error) {
-                console.log(error)
-            })
-        }
-    }
 })
 
 // Start the bot
